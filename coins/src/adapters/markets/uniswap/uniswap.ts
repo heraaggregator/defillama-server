@@ -176,7 +176,7 @@ async function lps(
     const coinData: CoinData | undefined = tokenPrices.find(
       (p: CoinData) => p.address == l.primaryUnderlying.toLowerCase()
     );
-    if (coinData == undefined) return 
+    if (coinData == undefined) return;
     const supply =
       tokenInfos.supplies[i].output / 10 ** tokenInfos.lpDecimals[i].output;
     const value =
@@ -221,7 +221,7 @@ async function unknownTokens(
     const coinData: CoinData | undefined = tokenPrices.find(
       (p: CoinData) => p.address == l.primaryUnderlying.toLowerCase()
     );
-    if (coinData == undefined) return 
+    if (coinData == undefined) return;
     const i: number = priceableLPs.indexOf(l);
 
     const sideValue: number =
@@ -406,15 +406,15 @@ export default async function getTokenPrices(
   );
 
   const writes: Write[] = [];
-  // await unknownTokens(
-  //   writes,
-  //   chain,
-  //   router,
-  //   timestamp,
-  //   priceableLPs,
-  //   tokenPrices,
-  //   tokenInfos
-  // );
+  await unknownTokens(
+    writes,
+    chain,
+    router,
+    timestamp,
+    priceableLPs,
+    tokenPrices,
+    tokenInfos
+  );
   await lps(writes, chain, timestamp, priceableLPs, tokenPrices, tokenInfos);
 
   return writes;
